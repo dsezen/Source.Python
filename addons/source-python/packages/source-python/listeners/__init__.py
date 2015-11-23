@@ -99,6 +99,8 @@ __all__ = ('OnClientActive',
            'on_level_init_listener_manager',
            'on_level_shutdown_listener_manager',
            'on_network_id_validated_listener_manager',
+           'on_plugin_loaded_manager',
+           'on_plugin_unloaded_manager',
            'on_query_cvar_value_finished_listener_manager',
            'on_server_activate_listener_manager',
            'on_tick_listener_manager',
@@ -126,6 +128,9 @@ _notify_on_update = ConVar(
         'Log a warning when a Source.Python update is available.' +
         ' Requires sp_check_for_update to be set to 1.'),
     min_value=0, max_value=1)
+
+on_plugin_loaded_manager = _ListenerManager()
+on_plugin_unloaded_manager = _ListenerManager()
 
 
 # =============================================================================
@@ -323,6 +328,18 @@ class OnVersionUpdate(_ListenerManager):
     """Register/unregister a version update listener."""
 
     manager = on_version_update_listener_manager
+
+
+class OnPluginLoaded(_ListenerManager):
+    """Register/unregister a plugin loaded listener."""
+
+    manager = on_plugin_loaded_manager
+
+
+class OnPluginUnloaded(_ListenerManager):
+    """Register/unregister a plugin unloaded listener."""
+
+    manager = on_plugin_unloaded_manager
 
 
 # =============================================================================

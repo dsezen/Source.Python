@@ -60,10 +60,15 @@ class LoadedPlugin(object):
 
         # Get the plugin's main file
         file_path = PLUGIN_PATH.joinpath(*tuple(
-            base_import.split('.')[:~0] + [plugin_name, plugin_name + '.py']))
+            base_import.split('.')[:~0] + [plugin_name + '.py']))
 
-        # Does the plugin's main file exist?
-        if not file_path.isfile():
+        # Get the base import
+        import_name = base_import + plugin_name
+
+        # Try to import the plugin
+        try:
+            self._plugin = import_module(import_name)
+        except ImportError:
 
             # Print a message that the plugin's main file was not found
             self.logger.log_message(self.prefix + self.translations[
@@ -74,12 +79,6 @@ class LoadedPlugin(object):
             # Raise an error so that the plugin
             # is not added to the PluginManager
             raise PluginFileNotFoundError
-
-        # Get the base import
-        import_name = base_import + plugin_name + '.' + plugin_name
-
-        # Import the plugin
-        self._plugin = import_module(import_name)
 
         # Set the globals value
         self._globals = {

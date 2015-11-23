@@ -16,6 +16,9 @@ import sys
 from core import AutoUnload
 #   Hooks
 from hooks.exceptions import except_hooks
+#   Listeners
+from listeners import on_plugin_loaded_manager
+from listeners import on_plugin_unloaded_manager
 #   Plugins
 from plugins import plugins_logger
 from plugins import _plugin_strings
@@ -70,11 +73,8 @@ class PluginManager(OrderedDict):
             # Get the plugin's instance
             instance = self.instance(plugin_name, self.base_import)
 
-            # Does the plugin have a load function?
-            if 'load' in instance.globals:
-
-                # Call the plugin's load function
-                instance.globals['load']()
+            # Call the plugin loaded listeners
+            on_plugin_loaded_manager.notify(plugin_name)
 
         # Was the file not found?
         # We use this check because we already printed the error to console
@@ -129,21 +129,8 @@ class PluginManager(OrderedDict):
         self.logger.log_message(self.prefix + self.translations[
             'Unloading'].get_string(plugin=plugin_name))
 
-        # Does the plugin have an unload function?
-        if 'unload' in self[plugin_name].globals:
-
-            # Use a try/except here to still allow the plugin to be unloaded
-            try:
-
-                # Call the plugin's unload function
-                self[plugin_name].globals['unload']()
-
-            # Was an exception raised?
-            except:
-
-                # Print the error to console, but
-                # allow the plugin to still be unloaded
-                except_hooks.print_exception()
+        # Call the plugin unload listeners
+        on_plugin_unloaded_manager.notify(plugin_name)
 
         # Remove all modules from sys.modules
         self._remove_modules(plugin_name)
