@@ -160,11 +160,15 @@ Set(SOURCEPYTHON_CVARS_MODULE_SOURCES
 # Effects module
 # ------------------------------------------------------------------
 Set(SOURCEPYTHON_EFFECTS_MODULE_HEADERS
+    core/modules/effects/effects_base.h
     core/modules/effects/${SOURCE_ENGINE}/effects_wrap.h
+    core/modules/effects/${SOURCE_ENGINE}/effects_base_wrap.h
 )
 
 Set(SOURCEPYTHON_EFFECTS_MODULE_SOURCES
     core/modules/effects/effects_wrap.cpp
+    core/modules/effects/effects_base_wrap.cpp
+    core/modules/effects/effects_constants_wrap.cpp
 )
 
 # ------------------------------------------------------------------
@@ -299,6 +303,7 @@ Set(SOURCEPYTHON_MEMORY_MODULE_HEADERS
     core/modules/memory/memory_tools.h
     core/modules/memory/memory_utilities.h
     core/modules/memory/memory_wrap.h
+    core/modules/memory/memory_rtti.h
 )
 
 Set(SOURCEPYTHON_MEMORY_MODULE_SOURCES
@@ -307,6 +312,7 @@ Set(SOURCEPYTHON_MEMORY_MODULE_SOURCES
     core/modules/memory/memory_pointer.cpp
     core/modules/memory/memory_scanner.cpp
     core/modules/memory/memory_wrap.cpp
+    core/modules/memory/memory_rtti.cpp
 )
 
 # ------------------------------------------------------------------

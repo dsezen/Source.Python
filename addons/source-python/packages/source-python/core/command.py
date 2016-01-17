@@ -36,7 +36,7 @@ from plugins import _plugin_strings
 from plugins.command import SubCommandManager
 from plugins.instance import LoadedPlugin
 #   Tick
-from listeners.tick import tick_delays
+from listeners.tick import Delay
 
 
 # =============================================================================
@@ -111,14 +111,14 @@ class _CoreCommandManager(SubCommandManager):
     @staticmethod
     def delay_execution(*args):
         """Execute a command after the given delay."""
-        tick_delays.delay(
+        Delay(
             float(args[0]),
             engine_server.server_command, ' '.join(args[1:]) + '\n')
 
     def dump_data(self, dump_type, filename):
         """Dump data to logs."""
         # Does the given dump type exist as a function?
-        if not 'dump_{0}'.format(dump_type) in dumps.__all__:
+        if 'dump_{0}'.format(dump_type) not in dumps.__all__:
 
             # If not, print message to notify of unknown dump type
             self.logger.log_message(
@@ -272,7 +272,7 @@ class _CoreCommandManager(SubCommandManager):
                     'An error occured while generating ' +
                     'project files for Source.Python')
             else:
-                modules_dir = project.project_source_dir.joinpath('modules')
+                modules_dir = project.project_source_dir / 'modules'
                 modules_dir.joinpath('modules.rst').remove()
                 for file_path in modules_dir.files('source-python.*.rst'):
                     self._prepare_generated_source_python_file(file_path)
@@ -530,7 +530,7 @@ class _CoreCommandManager(SubCommandManager):
 
         # Get the credits information
         groups = ConfigObj(
-            SP_DATA_PATH.joinpath('credits.ini'), encoding='unicode_escape')
+            SP_DATA_PATH / 'credits.ini', encoding='unicode_escape')
 
         # Loop through all groups in the credits
         for group in groups:

@@ -39,7 +39,7 @@ from players.helpers import address_from_playerinfo
 from players.helpers import get_client_language
 from players.helpers import playerinfo_from_index
 from players.helpers import uniqueid_from_playerinfo
-from players.games import _GameWeapons
+from players.games import _GamePlayer
 from players.voice import mute_manager
 from players.weapons import _PlayerWeapons
 
@@ -54,7 +54,7 @@ __all__ = ('Player',
 # =============================================================================
 # >> CLASSES
 # =============================================================================
-class Player(Entity, _GameWeapons, _PlayerWeapons):
+class Player(Entity, _GamePlayer, _PlayerWeapons):
     """Class used to interact directly with players."""
 
     def __init__(self, index):
@@ -64,14 +64,14 @@ class Player(Entity, _GameWeapons, _PlayerWeapons):
         :raise ValueError: Raised if the index is invalid.
         """
         super().__init__(index)
-        super(Entity, self).__setattr__('_playerinfo', None)
+        object.__setattr__(self, '_playerinfo', None)
 
     @property
     def playerinfo(self):
         """Return the player's :class:`PlayerInfo` object."""
         if self._playerinfo is None:
-            self._playerinfo = playerinfo_from_index(self.index)
-
+            playerinfo = playerinfo_from_index(self.index)
+            object.__setattr__(self, '_playerinfo', playerinfo)
         return self._playerinfo
 
     @property
@@ -476,7 +476,7 @@ class Player(Entity, _GameWeapons, _PlayerWeapons):
         if enable:
             self.collision_group = CollisionGroup.DEBRIS_TRIGGER
         else:
-            self.collison_group = CollisionGroup.PLAYER
+            self.collision_group = CollisionGroup.PLAYER
 
     def get_noblock(self):
         """Return whether noblock mode is enabled.
