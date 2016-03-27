@@ -536,7 +536,7 @@
 #define HAVE_LINUX_CAN_H 1
 
 /* Define if compiling using Linux 3.6 or later. */
-#define HAVE_LINUX_CAN_RAW_FD_FRAMES 1
+/* #undef HAVE_LINUX_CAN_RAW_FD_FRAMES */
 
 /* Define to 1 if you have the <linux/can/raw.h> header file. */
 #define HAVE_LINUX_CAN_RAW_H 1
@@ -1311,7 +1311,7 @@
 #define TANH_PRESERVES_ZERO_SIGN 1
 
 /* Library needed by timemodule.c: librt may be needed for clock_gettime() */
-/* #undef TIMEMODULE_LIB */
+#define TIMEMODULE_LIB rt
 
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
 #define TIME_WITH_SYS_TIME 1
