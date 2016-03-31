@@ -121,7 +121,7 @@ Set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -fno-threadsafe-statics -v -f
 # ------------------------------------------------------------------
 # Linux linker flags.
 # ------------------------------------------------------------------
-Set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--exclude-libs,libprotobuf.a")
+Set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libgcc -Wl,--exclude-libs,libprotobuf.a")
 
 
 # ------------------------------------------------------------------
